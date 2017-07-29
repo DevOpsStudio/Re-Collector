@@ -155,3 +155,27 @@ outputs{
 | protocol                   | 发送的协议，模式TCP，可选UDP          |      |
 |                            |                            |      |
 
+## 监控
+
+监控配置在metrics模块内
+
+```
+metrics{
+  ...
+}
+```
+
+| 参数             | 说明                   | 默认值   |
+| -------------- | -------------------- | ----- |
+| enable-logging | 是否启用自监控日志,true/false | false |
+| log-duration   | 日志打印的间隔              | 60000 |
+
+启用性能监控日志
+
+```
+metrics{
+  enable-logging = true
+  log-duration = 1000
+}
+```
+
