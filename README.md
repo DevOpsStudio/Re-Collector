@@ -3,7 +3,7 @@
 # 构建方式
 
 ```
-mvn clean package assembly:single -DskipTests
+mvn clean install package assembly:single -DskipTests
 ```
 
 # 启动方式
