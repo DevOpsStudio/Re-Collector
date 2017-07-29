@@ -3,7 +3,7 @@
 # 构建方式
 
 ```
-mvn clean package assembly:single -DskipTests
+mvn package assembly:single -DskipTests
 ```
 
 # 启动方式
@@ -122,7 +122,7 @@ win-application {
 
 ```
 outputs{
-
+  
 }
 ```
 
