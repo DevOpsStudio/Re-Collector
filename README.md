@@ -9,7 +9,10 @@ mvn clean package assembly:single -DskipTests
 # 启动方式
 
 ```
-bin/graylog-collector run -f collector.conf
+java -jar ./target/graylog-collector-0.5.1-SNAPSHOT.jar run -f ./config/collector.conf
+
+#检查内存泄漏的时候用
+java -jar -Dio.netty.leakDetection.level=advanced ./target/graylog-collector-0.5.1-SNAPSHOT.jar run -f ./config/collector.conf
 ```
 
 # 配置示例
