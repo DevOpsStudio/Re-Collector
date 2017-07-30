@@ -157,6 +157,8 @@ outputs{
 
 ## 监控
 
+### 吞吐量度量
+
 监控配置在metrics模块内
 
 ```
@@ -176,6 +178,30 @@ metrics{
 metrics{
   enable-logging = true
   log-duration = 1000
+}
+```
+
+### 资源使用监控
+
+资源使用监控配置在debug模块内
+
+```
+debug {
+	....
+}
+```
+
+| 参数                       | 说明                   | 默认值    |
+| ------------------------ | -------------------- | ------ |
+| memory-reporter          | 是否启用内存监控  true/false | false  |
+| memory-reporter-interval | 内存监控报告周期             | 1000毫秒 |
+
+配置示例
+
+```
+debug {
+    memory-reporter= true
+    memory-reporter-interval= 5000
 }
 ```
 
