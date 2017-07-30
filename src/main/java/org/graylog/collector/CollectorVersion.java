@@ -83,6 +83,6 @@ public class CollectorVersion {
 
     @Override
     public String toString() {
-        return String.format("v%s(commit%s)", version(), commitIdShort());
+        return "v" + version + "(commit" + commitIdShort() + ")";
     }
 }

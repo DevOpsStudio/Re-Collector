@@ -42,6 +42,7 @@ public class OutputRouter implements BufferConsumer {
             final Set<String> outputInputs = output.getInputs();
             final Set<String> messageOutputs = message.getOutputs();
 
+            //输入没有配置对应的路由则全部输出都会执行
             if (outputInputs.isEmpty() && messageOutputs.isEmpty()) {
                 output.write(message);
             } else if (outputInputs.contains(message.getInput()) || messageOutputs.contains(output.getId())) {

@@ -39,12 +39,9 @@ public class RestAdapterProvider implements Provider<RestAdapter> {
         return new RestAdapter.Builder()
                 .setEndpoint(graylogServerURL)
                 .setConverter(new JacksonConverter(new ObjectMapper()))
-                .setRequestInterceptor(new RequestInterceptor() {
-                    @Override
-                    public void intercept(RequestFacade request) {
-                        request.addHeader("User-Agent", "Graylog Collector " + CollectorVersion.CURRENT);
-                        request.addHeader("X-Graylog-Collector-Version", CollectorVersion.CURRENT.version());
-                    }
+                .setRequestInterceptor(request -> {
+                    request.addHeader("User-Agent", "Graylog Collector " + CollectorVersion.CURRENT);
+                    request.addHeader("X-Graylog-Collector-Version", CollectorVersion.CURRENT.version());
                 })
                 .build();
     }

@@ -45,36 +45,33 @@ public class NumberSuffixStrategy implements FileNamingStrategy {
 
     @Override
     public boolean pathMatches(final Path path) {
-        return Iterables.any(basePaths, new Predicate<Path>() {
-            @Override
-            public boolean apply(@Nullable Path basePath) {
-                if (basePath == null) {
-                    return false;
-                }
-
-                Path normalizedPath = path.normalize();
-                normalizedPath = basePath.getParent().resolve(normalizedPath);
-                // only allow files in the same directory
-                if (!basePath.getParent().equals(normalizedPath.getParent())) {
-                    return false;
-                }
-                final String filename = normalizedPath.getFileName().toString();
-                final String baseFilename = basePath.getFileName().toString();
-
-                // same files are a match
-                if (filename.equals(baseFilename)) {
-                    return true;
-                }
-
-                // do the files have a common beginning? if not, they aren't related.
-                if (!filename.startsWith(baseFilename)) {
-                    return false;
-                }
-
-                // check for number suffix
-                final String onlySuffix = filename.substring(baseFilename.length());
-                return onlySuffix.matches("^\\.\\d+$");
+        return Iterables.any(basePaths, basePath -> {
+            if (basePath == null) {
+                return false;
             }
+
+            Path normalizedPath = path.normalize();
+            normalizedPath = basePath.getParent().resolve(normalizedPath);
+            // only allow files in the same directory
+            if (!basePath.getParent().equals(normalizedPath.getParent())) {
+                return false;
+            }
+            final String filename = normalizedPath.getFileName().toString();
+            final String baseFilename = basePath.getFileName().toString();
+
+            // same files are a match
+            if (filename.equals(baseFilename)) {
+                return true;
+            }
+
+            // do the files have a common beginning? if not, they aren't related.
+            if (!filename.startsWith(baseFilename)) {
+                return false;
+            }
+
+            // check for number suffix
+            final String onlySuffix = filename.substring(baseFilename.length());
+            return onlySuffix.matches("^\\.\\d+$");
         });
     }
 }

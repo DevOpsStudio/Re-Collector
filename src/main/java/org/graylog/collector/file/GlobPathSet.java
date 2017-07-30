@@ -80,12 +80,8 @@ public class GlobPathSet implements PathSet {
     }
 
     public GlobPathSet(final String rootPathString, final String pattern) {
-        this(rootPathString, pattern, new FileTreeWalker() {
-            @Override
-            public void walk(Path basePath, FileVisitor<Path> visitor) throws IOException {
-                Files.walkFileTree(basePath, visitor);
-            }
-        });
+        this(rootPathString, pattern, (basePath, visitor) ->
+                Files.walkFileTree(basePath, visitor));
     }
 
     public GlobPathSet(final String rootPathString, final String pattern, final FileTreeWalker fileTreeWalker) {

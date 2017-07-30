@@ -75,20 +75,17 @@ public class ConfigurationRegistry {
     private void buildInputs(final Config inputConfigs) {
         final Map<String, InputConfiguration.Factory<? extends InputConfiguration>> factories = ConfigurationRegistry.this.inputConfigFactories;
 
-        dispatchConfig(inputConfigs, new ConfigCallback() {
-            @Override
-            public void call(String type, String id, Config config) {
-                if (factories.containsKey(type)) {
-                    final InputConfiguration cfg = factories.get(type).create(id, config);
+        dispatchConfig(inputConfigs, (type, id, config) -> {
+            if (factories.containsKey(type)) {
+                final InputConfiguration cfg = factories.get(type).create(id, config);
 
-                    if (validator.isValid(cfg)) {
-                        final InputService input = cfg.createInput();
-                        services.add(input);
-                        inputs.add(input);
-                    }
-                } else {
-                    errors.add(new ConfigurationError("Unknown input type \"" + type + "\" for " + id));
+                if (validator.isValid(cfg)) {
+                    final InputService input = cfg.createInput();
+                    services.add(input);
+                    inputs.add(input);
                 }
+            } else {
+                errors.add(new ConfigurationError("Unknown input type \"" + type + "\" for " + id));
             }
         });
     }

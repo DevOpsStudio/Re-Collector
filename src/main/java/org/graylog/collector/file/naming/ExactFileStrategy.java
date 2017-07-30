@@ -45,18 +45,15 @@ public class ExactFileStrategy implements FileNamingStrategy {
 
     @Override
     public boolean pathMatches(final Path path) {
-        return Iterables.any(basePaths, new Predicate<Path>() {
-            @Override
-            public boolean apply(@Nullable Path basePath) {
-                if (basePath == null) {
-                    return false;
-                }
-
-                Path normalizedPath = path.normalize();
-                normalizedPath = basePath.getParent().resolve(normalizedPath);
-
-                return basePath.equals(normalizedPath);
+        return Iterables.any(basePaths, basePath -> {
+            if (basePath == null) {
+                return false;
             }
+
+            Path normalizedPath = path.normalize();
+            normalizedPath = basePath.getParent().resolve(normalizedPath);
+
+            return basePath.equals(normalizedPath);
         });
     }
 }

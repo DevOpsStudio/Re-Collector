@@ -104,7 +104,7 @@ public class FileObserver extends AbstractExecutionThreadService {
 
         // Synchronize on keys to make the two operations atomic.
         synchronized (keys) {
-            keys.putIfAbsent(key, Sets.<WatchPath>newConcurrentHashSet());
+            keys.putIfAbsent(key, Sets.newConcurrentHashSet());
             keys.get(key).add(new WatchPath(pathSet, listener));
         }
     }

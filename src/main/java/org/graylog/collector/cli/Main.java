@@ -61,11 +61,8 @@ public class Main {
     }
 
     private static void configureShutdownHook(final CollectorCommand command) {
-        Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
-            @Override
-            public void run() {
-                command.stop();
-            }
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            command.stop();
         }));
     }
 }
