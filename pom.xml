@@ -7,7 +7,7 @@
 
     <groupId>org.graylog</groupId>
     <artifactId>graylog-collector</artifactId>
-    <version>0.5.1-SNAPSHOT</version>
+    <version>0.5.2-SNAPSHOT</version>
     <description>The Graylog Collector</description>
     <organization>
         <name>Graylog, Inc.</name>
