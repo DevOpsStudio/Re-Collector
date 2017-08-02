@@ -151,23 +151,27 @@ outputs{
 }
 ```
 
-### GELF输出
 
-| 参数                         | 说明                         | 值          |
-| -------------------------- | -------------------------- | ---------- |
-| type                       | 输出类型，可选 gelf，stdout（控制台输出） |            |
-| host                       | 输出的目标主机ip                  |            |
-| port                       | 输出的目标主机端口，                 | 1024-65535 |
-| client-tls                 | 是否采用tls进行传输  false/true    |            |
-| client-tls-cert-chain-file | tls认证文件路径                  |            |
-| client-tls-verify-cert     | 是否校验证书  true/false         |            |
-| client-queue-size          | gelf输出队列大小 512             |            |
-| client-connect-timeout     | gelf连接的超时时间                |            |
-| client-reconnect-delay     | gelf连接延时时间                 |            |
-| client-tcp-no-delay        | 是否启用tcp no-delay模式         |            |
-| client-send-buffer-size    | 发送的buffer长度                |            |
-| protocol                   | 发送的协议，模式TCP，可选UDP          |            |
-|                            |                            |            |
+
+| 参数                         | 说明                                | 值          |
+| -------------------------- | --------------------------------- | ---------- |
+| type                       | 输出类型，可选 gelf，stdout ,kafka        |            |
+| host                       | 输出的目标主机ip                         |            |
+| port                       | 输出的目标主机端口                         | 1024-65535 |
+| client-tls                 | [gelf输出专用]是否采用tls进行传输  false/true |            |
+| client-tls-cert-chain-file | [gelf输出专用]tls认证文件路径               |            |
+| client-tls-verify-cert     | [gelf输出专用]是否校验证书  true/false      |            |
+| client-queue-size          | [gelf输出专用]gelf输出队列大小 512          |            |
+| client-connect-timeout     | [gelf输出专用]gelf连接的超时时间             |            |
+| client-reconnect-delay     | [gelf输出专用]gelf连接延时时间              |            |
+| client-tcp-no-delay        | [gelf输出专用]是否启用tcp no-delay模式      |            |
+| client-send-buffer-size    | [gelf输出专用]发送的buffer长度             |            |
+| protocol                   | [gelf输出专用]发送的协议，默认TCP，可选UDP       |            |
+| topic                      | [kafka输出专用] kafka的主题名称，必填         |            |
+
+
+
+
 
 ## 监控
 
