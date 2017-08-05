@@ -17,6 +17,8 @@
 package org.graylog.collector.inputs;
 
 import org.graylog.collector.guice.CollectorModule;
+import org.graylog.collector.inputs.db.DatabaseInput;
+import org.graylog.collector.inputs.db.DatabaseInputConfiguration;
 import org.graylog.collector.inputs.eventlog.WindowsEventlogInput;
 import org.graylog.collector.inputs.eventlog.WindowsEventlogInputConfiguration;
 import org.graylog.collector.inputs.file.FileInput;
@@ -39,5 +41,11 @@ public class InputsModule extends CollectorModule {
                     WindowsEventlogInputConfiguration.class,
                     WindowsEventlogInputConfiguration.Factory.class);
         }
+
+        registerInput("database",
+                DatabaseInput.class,
+                DatabaseInput.Factory.class,
+                DatabaseInputConfiguration.class,
+                DatabaseInputConfiguration.Factory.class);
     }
 }
