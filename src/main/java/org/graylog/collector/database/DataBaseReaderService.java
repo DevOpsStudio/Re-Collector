@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.util.Properties;
+import java.util.TimeZone;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -50,13 +51,21 @@ public class DataBaseReaderService extends AbstractService {
                         "plugin/" + databaseInputConfiguration.getDbDriverPath(),
                         databaseInputConfiguration.getDbDriver());
                 Properties properties = new Properties();
+                if (databaseInputConfiguration.getDbUser() != null &&
+                        "".equals(databaseInputConfiguration.getDbUser()) == false) {
+                    properties.put("user", databaseInputConfiguration.getDbUser());
+                }
+                if (databaseInputConfiguration.getDbPassword() != null &&
+                        "".equals(databaseInputConfiguration.getDbPassword()) == false) {
+                    properties.put("password", databaseInputConfiguration.getDbPassword());
+                }
                 con = driver.connect(databaseInputConfiguration.getDbConnectionUrl(), properties);
                 return con;
             } else {
                 return con;
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            LOG.error(ex.getMessage());
             return null;
         }
 
@@ -113,21 +122,25 @@ public class DataBaseReaderService extends AbstractService {
                     statement.close();
 
                 } catch (SQLException e) {
-                    e.printStackTrace();
+                    LOG.error(e.getMessage());
                 }
             };
 
-            scheduledExecutorService.scheduleAtFixedRate(runnable, 0, 5, TimeUnit.SECONDS);
+            scheduledExecutorService.scheduleAtFixedRate(runnable, 0, configuration.getDbSyncTime(), TimeUnit.MINUTES);
 
             notifyStarted();
         } catch (Exception e) {
-            e.printStackTrace();
-            System.exit(-1);
+            LOG.error(e.getMessage());
         }
     }
 
     @Override
     protected void doStop() {
-
+        try {
+            con.close();
+        } catch (SQLException e) {
+            LOG.error(e.getMessage());
+        }
+        notifyStopped();
     }
 }

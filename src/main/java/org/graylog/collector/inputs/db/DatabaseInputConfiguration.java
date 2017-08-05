@@ -44,6 +44,30 @@ public class DatabaseInputConfiguration extends InputConfiguration {
         this.initSql = initSql;
     }
 
+    public String getDbUser() {
+        return dbUser;
+    }
+
+    public void setDbUser(String dbUser) {
+        this.dbUser = dbUser;
+    }
+
+    public String getDbPassword() {
+        return dbPassword;
+    }
+
+    public void setDbPassword(String dbPassword) {
+        this.dbPassword = dbPassword;
+    }
+
+    public Integer getDbSyncTime() {
+        return dbSyncTime;
+    }
+
+    public void setDbSyncTime(Integer dbSyncTime) {
+        this.dbSyncTime = dbSyncTime;
+    }
+
     public interface Factory extends InputConfiguration.Factory<DatabaseInputConfiguration> {
         @Override
         DatabaseInputConfiguration create(String id, Config config);
@@ -73,6 +97,12 @@ public class DatabaseInputConfiguration extends InputConfiguration {
     @NotBlank
     private String dbDriverPath;
 
+    private String dbUser;
+
+    private String dbPassword;
+
+    private Integer dbSyncTime;
+
     private final DatabaseInput.Factory inputFactory;
 
     @Inject
@@ -81,26 +111,37 @@ public class DatabaseInputConfiguration extends InputConfiguration {
                                       DatabaseInput.Factory inputFactory) {
         super(id, config);
         this.inputFactory = inputFactory;
-        if (config.hasPath("dbDriver")) {
-            this.dbDriver = config.getString("dbDriver");
+        if (config.hasPath("db-driver")) {
+            this.dbDriver = config.getString("db-driver");
         }
-        if (config.hasPath("dbConnectionUrl")) {
-            this.dbConnectionUrl = config.getString("dbConnectionUrl");
+        if (config.hasPath("db-connection-url")) {
+            this.dbConnectionUrl = config.getString("db-connection-url");
         }
         if (config.hasPath("sql")) {
             this.sql = config.getString("sql");
         }
-        if (config.hasPath("keytype")) {
-            this.keytype = config.getString("keytype");
+        if (config.hasPath("key-type")) {
+            this.keytype = config.getString("key-type");
         }
-        if (config.hasPath("idfield")) {
-            this.idfield = config.getString("idfield");
+        if (config.hasPath("id-field")) {
+            this.idfield = config.getString("id-field");
         }
-        if (config.hasPath("dbDriverPath")) {
-            this.dbDriverPath = config.getString("dbDriverPath");
+        if (config.hasPath("db-driver-path")) {
+            this.dbDriverPath = config.getString("db-driver-path");
         }
-        if (config.hasPath("initSql")) {
-            this.initSql = config.getString("initSql");
+        if (config.hasPath("init-sql")) {
+            this.initSql = config.getString("init-sql");
+        }
+        if (config.hasPath("db-user")) {
+            this.dbUser = config.getString("db-user");
+        }
+        if (config.hasPath("db-password")) {
+            this.dbPassword = config.getString("db-password");
+        }
+        if (config.hasPath("db-sync-time")) {
+            this.dbSyncTime = config.getInt("db-sync-time");
+        } else {
+            this.dbSyncTime = 1;
         }
     }
 

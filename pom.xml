@@ -7,9 +7,9 @@
     </prerequisites>
 
     <groupId>org.graylog</groupId>
-    <artifactId>graylog-collector</artifactId>
+    <artifactId>ReColletor</artifactId>
     <version>0.5.2-SNAPSHOT</version>
-    <description>The Graylog Collector</description>
+    <description>The LogInsight Collector</description>
     <organization>
         <name>Graylog, Inc.</name>
         <url>https://www.graylog.com/</url>
@@ -263,16 +263,6 @@
                     <version>2.4.3</version>
                 </plugin>
                 <plugin>
-                    <groupId>de.thetaphi</groupId>
-                    <artifactId>forbiddenapis</artifactId>
-                    <version>2.0</version>
-                </plugin>
-                <plugin>
-                    <groupId>com.mycila</groupId>
-                    <artifactId>license-maven-plugin</artifactId>
-                    <version>2.11</version>
-                </plugin>
-                <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>2.19.1</version>
@@ -396,65 +386,6 @@
                                 </transformer>
                             </transformers>
                         </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>de.thetaphi</groupId>
-                <artifactId>forbiddenapis</artifactId>
-                <version>2.0</version>
-                <configuration>
-                    <targetVersion>${maven.compiler.target}</targetVersion>
-                    <!-- disallow undocumented classes like sun.misc.Unsafe: -->
-                    <internalRuntimeForbidden>true</internalRuntimeForbidden>
-                    <!-- if the used Java version is too new, don't fail, just do nothing: -->
-                    <failOnUnsupportedJava>false</failOnUnsupportedJava>
-                    <bundledSignatures>
-                        <!-- This will automatically choose the right signatures based on 'maven.compilter.target': -->
-                        <bundledSignature>jdk-unsafe</bundledSignature>
-                        <bundledSignature>jdk-deprecated</bundledSignature>
-                        <bundledSignature>jdk-system-out</bundledSignature>
-                    </bundledSignatures>
-                    <signaturesFiles>
-                        <signaturesFile>${project.basedir}/development/forbidden-apis/signatures.txt</signaturesFile>
-                    </signaturesFiles>
-                    <excludes>
-                        <!-- We use System.out.println to show the version. Thank is okay. -->
-                        <exclude>**/org/graylog/collector/cli/commands/Version.class</exclude>
-                        <!-- Uses System.out.println to write the message to STDOU. -->
-                        <exclude>**/org/graylog/collector/outputs/stdout/StdoutOutput.class</exclude>
-                        <!-- Uses com.sun.nio.file.SensitivityWatchEventModifier.HIGH for the file watcher -->
-                        <exclude>**/org/graylog/collector/file/FileObserver.class</exclude>
-                    </excludes>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>com.mycila</groupId>
-                <artifactId>license-maven-plugin</artifactId>
-                <configuration>
-                    <header>com/mycila/maven/plugin/license/templates/GPL-3.txt</header>
-                    <properties>
-                        <owner>Graylog, Inc.</owner>
-                        <project.name>Graylog</project.name>
-                    </properties>
-                    <includes>
-                        <include>**/src/main/java/**</include>
-                        <include>**/src/test/java/**</include>
-                    </includes>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
                     </execution>
                 </executions>
             </plugin>

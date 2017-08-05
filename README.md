@@ -17,10 +17,10 @@ mvn clean package assembly:single -DskipTests
 # 启动方式
 
 ```
-java -jar ./target/graylog-collector-0.5.1-SNAPSHOT.jar run -f ./config/collector.conf
+java -jar -Xms12m -Xmx64m  ./target/graylog-collector-0.5.1-SNAPSHOT.jar run -f ./config/collector.conf
 
 #检查内存泄漏的时候用
-java -jar -Dio.netty.leakDetection.level=advanced ./target/graylog-collector-0.5.1-SNAPSHOT.jar run -f ./config/collector.conf
+java -jar -Xms12m -Xmx64m  -Dio.netty.leakDetection.level=advanced ./target/graylog-collector-0.5.1-SNAPSHOT.jar run -f ./config/collector.conf
 ```
 
 # 配置示例
@@ -84,7 +84,7 @@ inputs {
 
 | 参数                 | 说明                                       | 默认值     |
 | ------------------ | ---------------------------------------- | ------- |
-| type               | 输入的类型 必填，file、windows-eventlog           |         |
+| type               | 输入的类型 必填，file、windows-eventlog、database  |         |
 | path               | 文件采集的路径                                  |         |
 | charset            | 字符集转换                                    | utf-8   |
 | content-splitter   | 单行匹配还是多行匹配，newline 单行匹配，以\r为换行符，pattern，采用正则匹配，正则写在content-splitter-pattern配置里面 | newline |
@@ -96,6 +96,16 @@ inputs {
 | reader-interval    | 采集器的采集间隔                                 | 100毫秒   |
 | reader-buffer-size | 采集器的读取缓冲大小                               | 102400  |
 | message-fields     | 日志消息的附加字段，配置示例                           |         |
+| init-sql           | [database专用]从哪条记录开始向后读取                  |         |
+| db-driver-path     | [database专用]数据库驱动Jar包的名称，驱动包放在jar包同目录的plugin目录下 |         |
+| id-field           | [database专用]数据库自增列的名称                    |         |
+| key-type           | [database专用]自增列类型，可选：id、timestamp        |         |
+| sql                | [database专用]数据库记录采集的SQL，注意分页，不然一次采集的数量会太多 |         |
+| db-connection-url  | [database专用]数据库的连接窜                      |         |
+| db-driver          | [database专用]数据库驱动名类型，如com.mysql.jdbc.Driver |         |
+| db-user            | [database专用]可把用户配置在这里，也可以配置在连接窜          |         |
+| db-password        | [database专用]可把密码配置在这里，也可以配置在连接窜          |         |
+| db-sync-time       | [database专用]采集数据间隔，单位为分钟，默认为1            |         |
 
 message-fields 配置示例
 
@@ -140,6 +150,37 @@ win-application {
     poll-interval = 1s
   }
 ```
+
+采集数据库的记录
+
+```
+database {
+    type = "database"
+    db-driver="com.mysql.jdbc.Driver"
+    db-connection-url="jdbc:mysql://localhost:3306/guns?user=root"
+    sql="select * from login_log dept where createtime>'{id_field}'"
+    init-sql="select * from login_log order by id asc limit 1"
+    key-type="timestamp"
+    id-field="createtime"
+    db-driver-path="mysql-connector-java-5.1.28.jar"
+  }
+```
+
+### 常用JDBC连接方式
+
+#### MySQL
+
+Driver:com.[mysql](http://lib.csdn.net/base/mysql).jdbc.Driver
+
+URL:jdbc:mysql://localhost:3306/test?user=root&password=123456&useUnicode=true&characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false
+
+#### Oracle
+
+Driver: [oracle](http://lib.csdn.net/base/oracle).jdbc.driver.OracleDriver
+
+URL: jdbc:oracle:thin:@127.0.0.1:1521:dbname
+
+
 
 ## 输出
 

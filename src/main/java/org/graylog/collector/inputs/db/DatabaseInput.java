@@ -17,8 +17,6 @@ import java.util.Set;
  */
 public class DatabaseInput extends InputService {
     private final DatabaseInputConfiguration configuration;
-    private final Buffer buffer;
-    private String collectorHostName;
     private DataBaseReaderService dataBaseReaderService;
     private MessageBuilder messageBuilder;
 
@@ -31,8 +29,6 @@ public class DatabaseInput extends InputService {
                          Buffer buffer,
                          @CollectorHostName String collectorHostName) {
         this.configuration = configuration;
-        this.buffer = buffer;
-        this.collectorHostName = collectorHostName;
         this.messageBuilder = new MessageBuilder()
                 .input(getId())
                 .outputs(getOutputs())
