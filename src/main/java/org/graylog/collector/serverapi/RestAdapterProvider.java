@@ -40,8 +40,8 @@ public class RestAdapterProvider implements Provider<RestAdapter> {
                 .setEndpoint(graylogServerURL)
                 .setConverter(new JacksonConverter(new ObjectMapper()))
                 .setRequestInterceptor(request -> {
-                    request.addHeader("User-Agent", "Graylog Collector " + CollectorVersion.CURRENT);
-                    request.addHeader("X-Graylog-Collector-Version", CollectorVersion.CURRENT.version());
+                    request.addHeader("User-Agent", "LogInsight Collector " + CollectorVersion.CURRENT);
+                    request.addHeader("X-LogInsight-Collector-Version", CollectorVersion.CURRENT.version());
                 })
                 .build();
     }

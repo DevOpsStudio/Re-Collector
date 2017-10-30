@@ -22,7 +22,7 @@ import retrofit.http.PUT;
 import retrofit.http.Path;
 
 public interface CollectorRegistrationService {
-    @PUT("/plugins/org.graylog.plugins.collector/collectors/{collectorId}")
+    @PUT("/collectors/{collectorId}")
     Response register(@Path("collectorId") String collectorId, @Body CollectorRegistrationRequest request);
 
     @PUT("/system/collectors/{collectorId}")
